@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package test;
+
+message Author {
+  string given_name = 1;
+  string family_name = 2;
+}
+
+message Book {
+  string title = 1;
+  Author author = 2;
+  repeated Author authors = 3;
+
+  // Simple string map
+  map<string, string> reviews = 4;
+
+  // Int-keyed map
+  map<int32, string> items = 5;
+
+  // Example output-only field
+  string name = 6;
+}
