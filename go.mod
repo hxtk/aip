@@ -1,6 +1,6 @@
 module github.com/hxtk/aip
 
-go 1.22.2
+go 1.23
 
 require (
 	github.com/alecthomas/participle/v2 v2.1.1
