@@ -160,6 +160,94 @@ func (x *Book) GetName() string {
 	return ""
 }
 
+type GetBookRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetBookRequest) Reset() {
+	*x = GetBookRequest{}
+	mi := &file_testpb_book_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetBookRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetBookRequest) ProtoMessage() {}
+
+func (x *GetBookRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_testpb_book_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetBookRequest.ProtoReflect.Descriptor instead.
+func (*GetBookRequest) Descriptor() ([]byte, []int) {
+	return file_testpb_book_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *GetBookRequest) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+type ListBooksRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	PageSize      int32                  `protobuf:"varint,1,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListBooksRequest) Reset() {
+	*x = ListBooksRequest{}
+	mi := &file_testpb_book_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListBooksRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListBooksRequest) ProtoMessage() {}
+
+func (x *ListBooksRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_testpb_book_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListBooksRequest.ProtoReflect.Descriptor instead.
+func (*ListBooksRequest) Descriptor() ([]byte, []int) {
+	return file_testpb_book_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *ListBooksRequest) GetPageSize() int32 {
+	if x != nil {
+		return x.PageSize
+	}
+	return 0
+}
+
 var File_testpb_book_proto protoreflect.FileDescriptor
 
 const file_testpb_book_proto_rawDesc = "" +
@@ -183,7 +271,16 @@ const file_testpb_book_proto_rawDesc = "" +
 	"\n" +
 	"ItemsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\x05R\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01Bp\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"$\n" +
+	"\x0eGetBookRequest\x12\x12\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\"/\n" +
+	"\x10ListBooksRequest\x12\x1b\n" +
+	"\tpage_size\x18\x01 \x01(\x05R\bpageSize2m\n" +
+	"\vBookService\x12+\n" +
+	"\aGetBook\x12\x14.test.GetBookRequest\x1a\n" +
+	".test.Book\x121\n" +
+	"\tListBooks\x12\x16.test.ListBooksRequest\x1a\n" +
+	".test.Book0\x01Bp\n" +
 	"\bcom.testB\tBookProtoP\x01Z)github.com/hxtk/aip/masks/internal/testpb\xa2\x02\x03TXX\xaa\x02\x04Test\xca\x02\x04Test\xe2\x02\x10Test\\GPBMetadata\xea\x02\x04Testb\x06proto3"
 
 var (
@@ -198,20 +295,26 @@ func file_testpb_book_proto_rawDescGZIP() []byte {
 	return file_testpb_book_proto_rawDescData
 }
 
-var file_testpb_book_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_testpb_book_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_testpb_book_proto_goTypes = []any{
-	(*Author)(nil), // 0: test.Author
-	(*Book)(nil),   // 1: test.Book
-	nil,            // 2: test.Book.ReviewsEntry
-	nil,            // 3: test.Book.ItemsEntry
+	(*Author)(nil),           // 0: test.Author
+	(*Book)(nil),             // 1: test.Book
+	(*GetBookRequest)(nil),   // 2: test.GetBookRequest
+	(*ListBooksRequest)(nil), // 3: test.ListBooksRequest
+	nil,                      // 4: test.Book.ReviewsEntry
+	nil,                      // 5: test.Book.ItemsEntry
 }
 var file_testpb_book_proto_depIdxs = []int32{
 	0, // 0: test.Book.author:type_name -> test.Author
 	0, // 1: test.Book.authors:type_name -> test.Author
-	2, // 2: test.Book.reviews:type_name -> test.Book.ReviewsEntry
-	3, // 3: test.Book.items:type_name -> test.Book.ItemsEntry
-	4, // [4:4] is the sub-list for method output_type
-	4, // [4:4] is the sub-list for method input_type
+	4, // 2: test.Book.reviews:type_name -> test.Book.ReviewsEntry
+	5, // 3: test.Book.items:type_name -> test.Book.ItemsEntry
+	2, // 4: test.BookService.GetBook:input_type -> test.GetBookRequest
+	3, // 5: test.BookService.ListBooks:input_type -> test.ListBooksRequest
+	1, // 6: test.BookService.GetBook:output_type -> test.Book
+	1, // 7: test.BookService.ListBooks:output_type -> test.Book
+	6, // [6:8] is the sub-list for method output_type
+	4, // [4:6] is the sub-list for method input_type
 	4, // [4:4] is the sub-list for extension type_name
 	4, // [4:4] is the sub-list for extension extendee
 	0, // [0:4] is the sub-list for field type_name
@@ -228,9 +331,9 @@ func file_testpb_book_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_testpb_book_proto_rawDesc), len(file_testpb_book_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   4,
+			NumMessages:   6,
 			NumExtensions: 0,
-			NumServices:   0,
+			NumServices:   1,
 		},
 		GoTypes:           file_testpb_book_proto_goTypes,
 		DependencyIndexes: file_testpb_book_proto_depIdxs,

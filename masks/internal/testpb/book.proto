@@ -21,3 +21,17 @@ message Book {
   // Example output-only field
   string name = 6;
 }
+
+service BookService {
+  rpc GetBook(GetBookRequest) returns (Book);
+
+  rpc ListBooks(ListBooksRequest) returns (stream Book);
+}
+
+message GetBookRequest {
+  string name = 1;
+}
+
+message ListBooksRequest {
+  int32 page_size = 1;
+}

@@ -1,6 +1,6 @@
 module github.com/hxtk/aip
 
-go 1.23
+go 1.24.0
 
 require (
 	github.com/alecthomas/participle/v2 v2.1.1
@@ -11,6 +11,7 @@ require (
 
 require (
 	aead.dev/minisign v0.2.1 // indirect
+	connectrpc.com/connect v1.19.0 // indirect
 	github.com/bufbuild/bufisk v0.1.0 // indirect
 	github.com/google/go-cmp v0.6.0 // indirect
 	github.com/gopherjs/gopherjs v1.17.2 // indirect
@@ -22,7 +23,7 @@ require (
 	golang.org/x/exp v0.0.0-20231006140011-7918f672742d // indirect
 	golang.org/x/sys v0.24.0 // indirect
 	golang.org/x/term v0.23.0 // indirect
-	google.golang.org/protobuf v1.34.2 // indirect
+	google.golang.org/protobuf v1.36.9 // indirect
 )
 
 tool github.com/bufbuild/bufisk
