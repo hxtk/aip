@@ -39,7 +39,10 @@ func (c *connectInterceptor) WrapStreamingHandler(fn connect.StreamingHandlerFun
 
 		mask, err := New(meth.Output(), ModeRead, fields...)
 		if err != nil {
-			return err
+			return connect.NewError(
+				connect.CodeInvalidArgument,
+				err,
+			)
 		}
 
 		return fn(ctx, &pruningConn{
@@ -85,7 +88,10 @@ func (c *connectInterceptor) WrapUnary(fn connect.UnaryFunc) connect.UnaryFunc {
 
 		mask, err := New(meth.Output(), ModeRead, fields...)
 		if err != nil {
-			return nil, err
+			return nil, connect.NewError(
+				connect.CodeInvalidArgument,
+				err,
+			)
 		}
 
 		rsp, err := fn(ctx, req)
@@ -100,7 +106,10 @@ func (c *connectInterceptor) WrapUnary(fn connect.UnaryFunc) connect.UnaryFunc {
 
 		err = PruneMessage(pm, mask)
 		if err != nil {
-			return nil, err
+			return nil, connect.NewError(
+				connect.CodeInternal,
+				err,
+			)
 		}
 
 		return rsp, nil
