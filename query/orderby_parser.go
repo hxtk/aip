@@ -86,8 +86,8 @@ type FieldPath struct {
 	// The field path as its segments.
 	segments []string
 
-	// The canoncial reprsentation of the field path.
-	canoncial string
+	// The canonical reprsentation of the field path.
+	canonical string
 }
 
 // NewFieldPath initialises a new field path with the given segments.
@@ -107,20 +107,20 @@ func NewFieldPath(segments ...string) FieldPath {
 	}
 	return FieldPath{
 		segments:  segments,
-		canoncial: builder.String(),
+		canonical: builder.String(),
 	}
 }
 
 // Equals returns iff two field paths refer to exactly the
 // same field.
 func (f FieldPath) Equals(other FieldPath) bool {
-	return f.canoncial == other.canoncial
+	return f.canonical == other.canonical
 }
 
 // String returns a canoncial representation of the field path,
 // following AIP-132 / AIP-161 syntax.
 func (f FieldPath) String() string {
-	return f.canoncial
+	return f.canonical
 }
 
 // ParseOrderBy parses an AIP-132 order_by list. The method validates the
