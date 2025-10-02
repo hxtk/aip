@@ -4,8 +4,8 @@ package masks_test
 import (
 	"testing"
 
+	"github.com/hxtk/aip/internal/testpb"
 	masks "github.com/hxtk/aip/masks"
-	"github.com/hxtk/aip/masks/internal/testpb"
 )
 
 func TestNew_AIP161Semantics(t *testing.T) {

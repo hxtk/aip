@@ -184,13 +184,7 @@ func compareValues(a, b protoreflect.Value) int {
 		return 0
 	case string:
 		bv := b.Interface().(string)
-		switch {
-		case av < bv:
-			return -1
-		case av > bv:
-			return 1
-		}
-		return 0
+		return strings.Compare(av, bv)
 	case bool:
 		bv := b.Interface().(bool)
 		switch {
@@ -199,6 +193,12 @@ func compareValues(a, b protoreflect.Value) int {
 		case !av && bv:
 			return -1
 		default:
+			return 1
+		}
+	case nil:
+		if b.Interface() != nil {
+			return -1
+		} else {
 			return 1
 		}
 	default:

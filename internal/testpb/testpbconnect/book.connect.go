@@ -8,7 +8,7 @@ import (
 	connect "connectrpc.com/connect"
 	context "context"
 	errors "errors"
-	testpb "github.com/hxtk/aip/masks/internal/testpb"
+	testpb "github.com/hxtk/aip/internal/testpb"
 	http "net/http"
 	strings "strings"
 )

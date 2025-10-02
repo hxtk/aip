@@ -6,8 +6,8 @@ import (
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/types/known/fieldmaskpb"
 
+	"github.com/hxtk/aip/internal/testpb"
 	"github.com/hxtk/aip/masks"
-	"github.com/hxtk/aip/masks/internal/testpb"
 )
 
 // Book and Author types should come from generated protos in real usage.

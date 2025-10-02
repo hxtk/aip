@@ -7,9 +7,9 @@ import (
 	"testing"
 
 	"connectrpc.com/connect"
+	"github.com/hxtk/aip/internal/testpb"
+	"github.com/hxtk/aip/internal/testpb/testpbconnect"
 	"github.com/hxtk/aip/masks"
-	"github.com/hxtk/aip/masks/internal/testpb"
-	"github.com/hxtk/aip/masks/internal/testpb/testpbconnect"
 )
 
 // fake service with both unary and streaming methods
