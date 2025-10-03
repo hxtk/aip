@@ -116,6 +116,9 @@ func validateFieldPath(desc protoreflect.MessageDescriptor, segments []string) e
 		if fd == nil {
 			return fmt.Errorf("field %s not found on %s", seg, desc.FullName())
 		}
+		if fd.Cardinality() == protoreflect.Repeated {
+			return fmt.Errorf("cannot sort on repeated field %s in message %s", seg, desc.FullName())
+		}
 		if fd.Message() != nil {
 			desc = fd.Message()
 		}

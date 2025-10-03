@@ -204,3 +204,27 @@ func TestLess(t *testing.T) {
 		})
 	}
 }
+
+func TestRejectRepeatedFieldInSortKeys(t *testing.T) {
+	order, err := ParseOrderBy("authors")
+	if err == nil {
+		t.Errorf("ParseOrderBy('authors') rejected: %v", err)
+	}
+
+	_, lessErr := Less[*testpb.Book](order)
+	if lessErr == nil {
+		t.Fatalf("expected error for repeated field in sort keys")
+	}
+}
+
+func TestNonexistentFieldInSortKeys(t *testing.T) {
+	order, err := ParseOrderBy("no_such_field")
+	if err == nil {
+		_, lessErr := Less[*testpb.Book](order)
+		if lessErr == nil {
+			t.Fatalf("expected error for nonexistent field")
+		}
+	} else {
+		t.Logf("ParseOrderBy('no_such_field') rejected: %v", err)
+	}
+}
