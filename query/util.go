@@ -1,4 +1,4 @@
-package aip
+package query
 
 import "strings"
 

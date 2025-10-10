@@ -15,7 +15,7 @@
 // Package aip contains utilities used to comply with API Improvement
 // Proposals (AIPs) from https://google.aip.dev/. This includes
 // an AIP-160 filter parser and AIP-132 order by clause parser.
-package aip
+package query
 
 // This file contains a lexer and parser for AIP-160 filter expressions.
 // The EBNF is at https://google.aip.dev/assets/misc/ebnf-filtering.txt

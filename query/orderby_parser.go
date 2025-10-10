@@ -31,7 +31,7 @@
 // No validation is performed to test that the field paths are valid for
 // a particular protocol buffer message.
 
-package aip
+package query
 
 import (
 	"regexp"

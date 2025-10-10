@@ -16,7 +16,7 @@
 // Proposals (AIPs) from https://google.aip.dev/. This includes
 // an AIP-160 filter parser and SQL generator and AIP-132 order by
 // clause parser and SQL generator.
-package aip
+package query
 
 import (
 	"fmt"
