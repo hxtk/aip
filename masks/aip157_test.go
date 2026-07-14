@@ -4,7 +4,6 @@ import (
 	"testing"
 
 	"google.golang.org/protobuf/proto"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	"github.com/hxtk/aip/internal/testpb"
 	"github.com/hxtk/aip/masks"
@@ -21,7 +20,10 @@ func TestPruneMessage_BasicScalars(t *testing.T) {
 		Name:  "drop me",
 	}
 
-	mask := &fieldmaskpb.FieldMask{Paths: []string{"title"}}
+	mask, err := masks.New(book.ProtoReflect().Descriptor(), masks.ModeRead, "title")
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	if err := masks.PruneMessage(book, mask); err != nil {
 		t.Fatal(err)
@@ -43,7 +45,10 @@ func TestPruneMessage_NestedMessage(t *testing.T) {
 		},
 	}
 
-	mask := &fieldmaskpb.FieldMask{Paths: []string{"author.given_name"}}
+	mask, err := masks.New(book.ProtoReflect().Descriptor(), masks.ModeRead, "author.given_name")
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	if err := masks.PruneMessage(book, mask); err != nil {
 		t.Fatal(err)
@@ -65,7 +70,10 @@ func TestPruneMessage_RepeatedMessage(t *testing.T) {
 		},
 	}
 
-	mask := &fieldmaskpb.FieldMask{Paths: []string{"authors.given_name"}}
+	mask, err := masks.New(book.ProtoReflect().Descriptor(), masks.ModeRead, "authors.given_name")
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	if err := masks.PruneMessage(book, mask); err != nil {
 		t.Fatal(err)
@@ -89,7 +97,10 @@ func TestPruneMessage_WildcardRepeatedMessage(t *testing.T) {
 		},
 	}
 
-	mask := &fieldmaskpb.FieldMask{Paths: []string{"authors.*.given_name"}}
+	mask, err := masks.New(book.ProtoReflect().Descriptor(), masks.ModeRead, "authors.*.given_name")
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	if err := masks.PruneMessage(book, mask); err != nil {
 		t.Fatal(err)
@@ -114,7 +125,10 @@ func TestPruneMessage_ClearsUnmentionedFields(t *testing.T) {
 		Reviews: map[string]string{"smith": "drop"},
 	}
 
-	mask := &fieldmaskpb.FieldMask{Paths: []string{"title"}}
+	mask, err := masks.New(book.ProtoReflect().Descriptor(), masks.ModeRead, "title")
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	if err := masks.PruneMessage(book, mask); err != nil {
 		t.Fatal(err)

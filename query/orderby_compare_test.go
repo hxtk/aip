@@ -80,7 +80,7 @@ func TestLess(t *testing.T) {
 
 func TestRejectRepeatedFieldInSortKeys(t *testing.T) {
 	order, err := ParseOrderBy("authors")
-	if err == nil {
+	if err != nil {
 		t.Errorf("ParseOrderBy('authors') rejected: %v", err)
 	}
 

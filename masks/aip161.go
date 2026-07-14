@@ -5,7 +5,6 @@ import (
 	"strings"
 
 	"google.golang.org/protobuf/reflect/protoreflect"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
 )
 
 // Mode represents whether the mask is being used for a read or write.
@@ -18,7 +17,7 @@ const (
 
 // New validates the given paths against the descriptor according to AIP-161
 // and returns a normalized FieldMask if valid.
-func New(desc protoreflect.MessageDescriptor, mode Mode, paths ...string) (*fieldmaskpb.FieldMask, error) {
+func New(desc protoreflect.MessageDescriptor, mode Mode, paths ...string) (*FieldMask, error) {
 	var validPaths []string
 	for _, p := range paths {
 		if err := validatePath(desc, mode, p); err != nil {
@@ -26,10 +25,11 @@ func New(desc protoreflect.MessageDescriptor, mode Mode, paths ...string) (*fiel
 		}
 		validPaths = append(validPaths, p)
 	}
-	return &fieldmaskpb.FieldMask{Paths: validPaths}, nil
+	return &FieldMask{
+		desc: desc,
+		trie: newMaskTrie(validPaths),
+	}, nil
 }
-
-// --- path validation ---
 
 func validatePath(desc protoreflect.MessageDescriptor, mode Mode, path string) error {
 	if path == "" {
@@ -147,8 +147,6 @@ func tokenizePath(path string) ([]string, error) {
 	}
 	return segs, nil
 }
-
-// --- helpers ---
 
 func isAllDigits(s string) bool {
 	if s == "" {

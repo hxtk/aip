@@ -7,8 +7,36 @@ import (
 	"connectrpc.com/connect"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoreflect"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
 )
+
+type masksCtxKey struct{}
+
+var ctxKey = masksCtxKey{}
+
+// HasPath checks whether a given field path exists in the field mask in ctx.
+//
+// If the provided context has no mask embedded or has a nil mask embedded,
+// this method unconditionally returns true.
+//
+// If a non-trivial mask exists in the context, if this method returns false,
+// that implies the mask would not prune the queried path. Any instance where
+// this function returns true for a field that the mask would prune is a bug,
+// but for correctness sake, this implementation errs on the side of inclusiveness.
+//
+// If you're implementing an RPC, you may use this method to decide whether
+// your handler needs to do work to produce a non-trivial field on the response.
+func HasPath(ctx context.Context, path string) bool {
+	mask, ok := ctx.Value(ctxKey).(*FieldMask)
+	if !ok {
+		return true
+	}
+
+	return mask.HasPath(path)
+}
+
+func MaskContext(ctx context.Context, mask *FieldMask) context.Context {
+	return context.WithValue(ctx, ctxKey, mask)
+}
 
 func WithReadMaskInterceptor(header string) connect.Interceptor {
 	return &connectInterceptor{header: header}
@@ -45,17 +73,20 @@ func (c *connectInterceptor) WrapStreamingHandler(fn connect.StreamingHandlerFun
 			)
 		}
 
-		return fn(ctx, &pruningConn{
-			StreamingHandlerConn: h,
-			fm:                   mask,
-		})
+		return fn(
+			MaskContext(ctx, mask),
+			&pruningConn{
+				StreamingHandlerConn: h,
+				fm:                   mask,
+			},
+		)
 	}
 
 }
 
 type pruningConn struct {
 	connect.StreamingHandlerConn
-	fm *fieldmaskpb.FieldMask
+	fm *FieldMask
 }
 
 func (c *pruningConn) Send(msg any) error {
@@ -94,7 +125,7 @@ func (c *connectInterceptor) WrapUnary(fn connect.UnaryFunc) connect.UnaryFunc {
 			)
 		}
 
-		rsp, err := fn(ctx, req)
+		rsp, err := fn(MaskContext(ctx, mask), req)
 		if err != nil {
 			return nil, err
 		}

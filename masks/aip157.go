@@ -3,21 +3,19 @@ package masks
 import (
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoreflect"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
 )
 
 // PruneMessage traverses msg and clears fields that are not present in mask.
 // The mask must be valid under ModeRead for msg’s descriptor.
-func PruneMessage(msg proto.Message, mask *fieldmaskpb.FieldMask) error {
+func PruneMessage(msg proto.Message, mask *FieldMask) error {
 	if msg == nil {
 		return nil
 	}
 	if mask == nil {
 		return nil
 	}
-	// Build a trie of mask paths for fast lookup during traversal.
-	trie := newMaskTrie(mask.Paths)
-	return pruneMessage(msg.ProtoReflect(), trie)
+
+	return pruneMessage(msg.ProtoReflect(), mask.trie)
 }
 
 // pruneMessage applies pruning recursively.
@@ -116,8 +114,6 @@ func pruneMessage(m protoreflect.Message, trie *maskTrie) error {
 	}
 	return nil
 }
-
-// --- trie of mask paths ---
 
 type maskTrie struct {
 	children map[string]*maskTrie
